@@ -18,7 +18,8 @@ class ScannerConfig {
         const container = document.getElementById('frequencyGroups');
         container.innerHTML = '';
 
-        Object.entries(frequencyDatabase).forEach(([groupId, group]) => {
+        const db = (typeof window !== 'undefined' && window.frequencyDatabase) ? window.frequencyDatabase : {};
+        Object.entries(db).forEach(([groupId, group]) => {
             const groupCard = this.createGroupCard(groupId, group);
             container.appendChild(groupCard);
         });
@@ -120,7 +121,8 @@ class ScannerConfig {
     }
 
     selectAllGroups() {
-        Object.keys(frequencyDatabase).forEach(groupId => {
+        const db = (typeof window !== 'undefined' && window.frequencyDatabase) ? window.frequencyDatabase : {};
+        Object.keys(db).forEach(groupId => {
             if (!this.selectedGroups.has(groupId)) {
                 this.toggleGroup(groupId);
             }
@@ -306,4 +308,7 @@ class ScannerConfig {
 let scannerConfig;
 document.addEventListener('DOMContentLoaded', () => {
     scannerConfig = new ScannerConfig();
+    if (typeof window !== 'undefined') {
+        window.scannerConfig = scannerConfig;
+    }
 });
