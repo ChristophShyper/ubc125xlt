@@ -74,7 +74,7 @@ const frequencyDatabase = {
     },
     "pl-airfields": {
         name: "PL Airfields",
-        icon: "fas fa-plane",
+        icon: "fas fa-helicopter",
         description: "Smaller Polish civilian airfields",
         frequencies: [
             { freq: "136.5050", description: "EPAR Radio" },
@@ -210,7 +210,7 @@ const frequencyDatabase = {
     },
     "pl-airshows": {
         name: "PL Airshows",
-        icon: "fa fa-paper-plane",
+        icon: "fas fa-plane",
         description: "Polish airshow displays",
         frequencies: [
             { freq: "120.7050", description: "EPLS Display" },
@@ -221,7 +221,7 @@ const frequencyDatabase = {
     },
     "cz-airshows": {
         name: "CZ Airshows",
-        icon: "fa fa-paper-plane-o",
+        icon: "fas fa-space-shuttle",
         description: "Czech airshow displays",
         frequencies: [
             { freq: "119.1750", description: "LKMT Display" },
