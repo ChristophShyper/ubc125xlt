@@ -5,7 +5,7 @@ const frequencyDatabase = {
         icon: "fas fa-ambulance",
         description: "Polish EMS and other emergency services",
         frequencies: [
-            { freq: "129.0000", description: "HEMS - LPR" },
+            { freq: "129.0000", description: "HEMS - LPR" }
         ]
     },
     "pl-airports": {
@@ -225,11 +225,16 @@ const frequencyDatabase = {
         description: "Czech airshow displays",
         frequencies: [
             { freq: "119.1750", description: "LKMT Display" },
-            { freq: "118.7000", description: "LKMT Tower 1" }
+            { freq: "118.7000", description: "LKMT Tower 1" },
             { freq: "120.8000", description: "LKMT Tower 2" }
         ]
     }
 };
+
+// Expose globally in browser
+if (typeof window !== 'undefined') {
+    window.frequencyDatabase = frequencyDatabase;
+}
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
