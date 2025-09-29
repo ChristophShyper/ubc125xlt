@@ -210,7 +210,7 @@ const frequencyDatabase = {
     },
     "pl-airshows": {
         name: "PL Airshows",
-        icon: "glyphicon glyphicon-plane",
+        icon: "fa fa-paper-plane",
         description: "Polish airshow displays",
         frequencies: [
             { freq: "120.7050", description: "EPLS Display" },
@@ -221,7 +221,7 @@ const frequencyDatabase = {
     },
     "cz-airshows": {
         name: "CZ Airshows",
-        icon: "glyphicon glyphicon-plane",
+        icon: "fa fa-paper-plane-o",
         description: "Czech airshow displays",
         frequencies: [
             { freq: "119.1750", description: "LKMT Display" },

@@ -231,7 +231,8 @@ class ScannerConfig {
             if (!hdrRes.ok || !ftrRes.ok) throw new Error('Failed to load header/footer');
             headerText = await hdrRes.text();
             footerText = await ftrRes.text();
-            // Ensure header ends with a newline so the first data line does not run into the header
+            if (!headerText.endsWith('\n')) headerText += '\n';
+
         } catch (e) {
             alert('Unable to load header/footer. Please serve the app via a local web server and try again.');
             return null;
