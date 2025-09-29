@@ -1,7 +1,7 @@
 // Frequency database - organized by groups for easy maintenance
 const frequencyDatabase = {
     "pl-ems": {
-        name: "PL Emergency Services",
+        name: "PL EMS",
         icon: "fas fa-ambulance",
         description: "Polish EMS and other emergency services",
         frequencies: [
@@ -9,7 +9,7 @@ const frequencyDatabase = {
         ]
     },
     "pl-airports": {
-        name: "PL Civilian Airports",
+        name: "PL Airports",
         icon: "fas fa-plane-departure",
         description: "Bigger Polish civilian airports",
         frequencies: [
@@ -73,7 +73,7 @@ const frequencyDatabase = {
         ]
     },
     "pl-airfields": {
-        name: "PL Civilian Airfields",
+        name: "PL Airfields",
         icon: "fas fa-plane",
         description: "Smaller Polish civilian airfields",
         frequencies: [
@@ -146,7 +146,7 @@ const frequencyDatabase = {
         ]
     },
     "pl-military": {
-        name: "PL Military Airfields",
+        name: "PL Military",
         icon: "fas fa-fighter-jet",
         description: "Polish military airfields",
         frequencies: [
@@ -209,7 +209,7 @@ const frequencyDatabase = {
         ]
     },
     "pl-airshows": {
-        name: "PL Airshow displays",
+        name: "PL Airshows",
         icon: "glyphicon glyphicon-plane",
         description: "Polish airshow displays",
         frequencies: [
@@ -220,7 +220,7 @@ const frequencyDatabase = {
         ]
     },
     "cz-airshows": {
-        name: "CZ Airshow displays",
+        name: "CZ Airshows",
         icon: "glyphicon glyphicon-plane",
         description: "Czech airshow displays",
         frequencies: [
