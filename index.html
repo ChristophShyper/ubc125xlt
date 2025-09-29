@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBC125XLT Scanner Configuration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-broadcast-tower"></i> UBC125XLT Scanner Configuration</h1>
+            <p>Configure your Uniden UBC125XLT radio scanner with ease</p>
+        </header>
+
+        <main>
+            <div class="controls">
+                <button id="selectAll" class="btn btn-primary">
+                    <i class="fas fa-check-double"></i> Select All Groups
+                </button>
+                <button id="clearAll" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Clear All
+                </button>
+                <button id="downloadConfig" class="btn btn-success">
+                    <i class="fas fa-download"></i> Download Configuration
+                </button>
+            </div>
+
+            <div class="frequency-groups" id="frequencyGroups">
+                <!-- Groups will be populated by JavaScript -->
+            </div>
+
+            <div class="summary">
+                <h3>Configuration Summary</h3>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="selectedCount">0</span>
+                        <span class="stat-label">Selected Frequencies</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="groupCount">0</span>
+                        <span class="stat-label">Active Groups</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="frequencies.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
