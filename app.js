@@ -179,7 +179,7 @@ class ScannerConfig {
                     frequency: frequency.freq,
                     description: frequency.description,
                     group: group.name,
-                    toneCode: frequency.toneCode || "CSQ",
+                    modulation: frequency.modulation || "AM",
                     mode: "FM"
                 });
             }
@@ -193,11 +193,11 @@ class ScannerConfig {
         // This follows a CSV-like format that can be imported into scanner programming software
         let output = "# UBC125XLT Scanner Configuration\n";
         output += `# Generated: ${config.generated}\n`;
-        output += "# Channel,Frequency,Description,Group,Tone,Mode\n";
+        output += "# Channel,Frequency,Description,Group,Modulation,Mode\n";
         output += "\n";
 
         config.channels.forEach(channel => {
-            output += `${channel.channel},${channel.frequency},${channel.description},${channel.group},${channel.toneCode},${channel.mode}\n`;
+            output += `${channel.channel},${channel.frequency},${channel.description},${channel.group},${channel.modulation},${channel.mode}\n`;
         });
 
         return output;

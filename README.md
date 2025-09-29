@@ -41,8 +41,9 @@ To add or modify frequencies, edit the `frequencies.js` file:
     frequencies: [
         { 
             freq: "123.4567", 
-            description: "Service Name", 
-            toneCode: "CSQ" 
+            description: "Service Name",
+            // modulation is optional; defaults to "AM" if omitted
+            // modulation: "FM"
         }
         // Add more frequencies here
     ]
@@ -52,16 +53,16 @@ To add or modify frequencies, edit the `frequencies.js` file:
 ### Frequency Properties:
 - `freq`: Frequency in MHz (as string)
 - `description`: Human-readable service name
-- `toneCode`: CTCSS tone code or "CSQ" for carrier squelch
+- `modulation` (optional): Modulation type (e.g., AM, FM, NFM, WFM). Defaults to `AM` when not specified.
 
 ## Configuration File Format
 
 The generated configuration file is in CSV format compatible with UBC125XLT programming software:
 
 ```
-Channel,Frequency,Description,Group,Tone,Mode
-1,155.7550,Police Dispatch 1,Police,CSQ,FM
-2,154.2650,Fire Dispatch,Fire Department,CSQ,FM
+Channel,Frequency,Description,Group,Modulation,Mode
+1,155.7550,Police Dispatch 1,Police,AM,FM
+2,154.2650,Fire Dispatch,Fire Department,AM,FM
 ```
 
 ## Browser Compatibility
