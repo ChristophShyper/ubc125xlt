@@ -152,70 +152,76 @@ class ScannerConfig {
         document.getElementById('groupCount').textContent = this.selectedGroups.size;
     }
 
-    generateConfigFile() {
+    async generateConfigFile() {
         if (this.selectedFrequencies.size === 0) {
             alert('Please select at least one frequency before downloading.');
-            return;
+            return null;
         }
 
-        const config = {
-            scanner: "UBC125XLT",
-            generated: new Date().toISOString(),
-            channels: []
+        // Helper to format frequency: remove '.', ensure 8 digits with a leading 0
+        const toEightDigitFreq = (freqStr) => {
+            const digits = String(freqStr).replace(/\D/g, '');
+            // Ensure 7 digits (by trimming/padding right with zeros based on original decimals)
+            // But input like 122.6000 should already be 7 digits when dot removed
+            let d = digits;
+            if (d.length > 7) d = d.slice(0, 7);
+            if (d.length < 7) d = d.padEnd(7, '0');
+            return '0' + d; // leading 0 to make 8 digits
         };
 
-        let channelNumber = 1;
-
         // Collect selected frequencies from all groups
+        const compiledLines = [];
         this.selectedFrequencies.forEach(freqId => {
             const checkbox = document.getElementById(`freq-${freqId}`);
             if (checkbox && checkbox.checked) {
                 const frequency = JSON.parse(checkbox.dataset.frequency);
                 const groupId = checkbox.dataset.group;
-                const group = frequencyDatabase[groupId];
-
-                config.channels.push({
-                    channel: channelNumber++,
-                    frequency: frequency.freq,
-                    description: frequency.description,
-                    group: group.name,
-                    modulation: frequency.modulation || "AM",
-                    mode: "FM"
-                });
+                // Default modulation to AM if not provided in frequency entry
+                const modulation = frequency.modulation || 'AM';
+                const freqDigits = toEightDigitFreq(frequency.freq);
+                compiledLines.push(`${frequency.description},${freqDigits},${modulation},0,2,0,0`);
             }
         });
 
-        return this.formatConfigForScanner(config);
+        if (compiledLines.length === 0) {
+            alert('Please select at least one frequency before downloading.');
+            return null;
+        }
+
+        // Fetch header and footer files
+        let headerText = '';
+        let footerText = '';
+        try {
+            const [hdrRes, ftrRes] = await Promise.all([
+                fetch('header.txt'),
+                fetch('footer.txt')
+            ]);
+            if (!hdrRes.ok || !ftrRes.ok) throw new Error('Failed to load header/footer');
+            headerText = await hdrRes.text();
+            footerText = await ftrRes.text();
+            // Ensure header ends with a newline so compiled lines always start on a new line
+            if (!headerText.endsWith('\n')) headerText += '\n';
+        } catch (e) {
+            alert('Unable to load header/footer. Please serve the app via a local web server and try again.');
+            return null;
+        }
+
+        const middle = compiledLines.join('\n') + '\n';
+        return `${headerText}${middle}${footerText}`;
     }
 
-    formatConfigForScanner(config) {
-        // Generate UBC125XLT compatible configuration
-        // This follows a CSV-like format that can be imported into scanner programming software
-        let output = "# UBC125XLT Scanner Configuration\n";
-        output += `# Generated: ${config.generated}\n`;
-        output += "# Channel,Frequency,Description,Group,Modulation,Mode\n";
-        output += "\n";
-
-        config.channels.forEach(channel => {
-            output += `${channel.channel},${channel.frequency},${channel.description},${channel.group},${channel.modulation},${channel.mode}\n`;
-        });
-
-        return output;
-    }
-
-    downloadConfig() {
-        const configData = this.generateConfigFile();
+    async downloadConfig() {
+        const configData = await this.generateConfigFile();
         if (!configData) return;
 
         const blob = new Blob([configData], { type: 'text/plain' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-        
+
         a.style.display = 'none';
         a.href = url;
-        a.download = `UBC125XLT-config-${timestamp}.csv`;
-        
+        a.download = 'ubc125xlt.txt';
+
         document.body.appendChild(a);
         a.click();
         
@@ -223,7 +229,7 @@ class ScannerConfig {
         document.body.removeChild(a);
 
         // Show success message
-        this.showNotification('Configuration file downloaded successfully!', 'success');
+        this.showNotification('UBC125XLT config file downloaded successfully!', 'success');
     }
 
     showNotification(message, type = 'info') {
@@ -277,8 +283,8 @@ class ScannerConfig {
             this.clearAll();
         });
 
-        document.getElementById('downloadConfig').addEventListener('click', () => {
-            this.downloadConfig();
+        document.getElementById('downloadConfig').addEventListener('click', async () => {
+            await this.downloadConfig();
         });
     }
 }
