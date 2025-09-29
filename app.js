@@ -5,13 +5,29 @@ class ScannerConfig {
         this.selectedGroups = new Set();
         this.MAX_CHANNELS = 500;
         this.limitWarned = false;
+        this.renderRetries = 0;
         this.init();
     }
 
     init() {
-        this.renderGroups();
+        this.tryRenderGroups();
         this.attachEventListeners();
         this.updateSummary();
+    }
+
+    tryRenderGroups() {
+        const db = (typeof window !== 'undefined' && window.frequencyDatabase) ? window.frequencyDatabase : null;
+        if (!db || Object.keys(db).length === 0) {
+            if (this.renderRetries < 40) { // retry up to ~2s total at 50ms
+                this.renderRetries++;
+                setTimeout(() => this.tryRenderGroups(), 50);
+            } else {
+                const container = document.getElementById('frequencyGroups');
+                if (container) container.innerHTML = '<div style="color:#900">Failed to load frequency database.</div>';
+            }
+            return;
+        }
+        this.renderGroups();
     }
 
     renderGroups() {
