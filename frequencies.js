@@ -210,7 +210,7 @@ const frequencyDatabase = {
     },
     "pl-airshows": {
         name: "PL Airshow displays",
-        icon: "glyphicon glyphicon-plane,
+        icon: "glyphicon glyphicon-plane",
         description: "Polish airshow displays",
         frequencies: [
             { freq: "120.7050", description: "EPLS Display" },
