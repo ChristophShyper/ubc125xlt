@@ -41,6 +41,18 @@ header p {
     opacity: 0.9;
 }
 
+/* Make header links white (e.g., Scan125 Control Program Suite) */
+header a,
+header a:visited {
+    color: #fff;
+}
+
+header a:hover,
+header a:focus {
+    color: #fff;
+    text-decoration: underline;
+}
+
 /* Main Content */
 main {
     padding: 40px;
