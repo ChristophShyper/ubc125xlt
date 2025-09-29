@@ -3,6 +3,8 @@ class ScannerConfig {
     constructor() {
         this.selectedFrequencies = new Set();
         this.selectedGroups = new Set();
+        this.MAX_CHANNELS = 500;
+        this.limitWarned = false;
         this.init();
     }
 
@@ -31,7 +33,7 @@ class ScannerConfig {
             <div class="group-header" onclick="scannerConfig.toggleGroup('${groupId}')">
                 <div class="group-title">
                     <i class="${group.icon}"></i>
-                    <span>${group.name}</span>
+                    <span>${group.name} (${(group.frequencies || []).length})</span>
                 </div>
                 <div class="group-toggle" id="toggle-${groupId}"></div>
             </div>
@@ -150,6 +152,17 @@ class ScannerConfig {
     updateSummary() {
         document.getElementById('selectedCount').textContent = this.selectedFrequencies.size;
         document.getElementById('groupCount').textContent = this.selectedGroups.size;
+
+        // Warn if over max channels
+        if (this.selectedFrequencies.size > this.MAX_CHANNELS) {
+            if (!this.limitWarned) {
+                this.showNotification(`Selected ${this.selectedFrequencies.size} > ${this.MAX_CHANNELS}. Only ${this.MAX_CHANNELS} can be exported.`, 'info');
+                this.limitWarned = true;
+            }
+        } else if (this.limitWarned) {
+            // Reset warning guard when user goes back under the limit
+            this.limitWarned = false;
+        }
     }
 
     async generateConfigFile() {
@@ -158,15 +171,18 @@ class ScannerConfig {
             return null;
         }
 
+        if (this.selectedFrequencies.size > this.MAX_CHANNELS) {
+            alert(`You selected ${this.selectedFrequencies.size} items. The configuration supports a maximum of ${this.MAX_CHANNELS}. Please reduce your selection.`);
+            return null;
+        }
+
         // Helper to format frequency: remove '.', ensure 8 digits with a leading 0
         const toEightDigitFreq = (freqStr) => {
             const digits = String(freqStr).replace(/\D/g, '');
-            // Ensure 7 digits (by trimming/padding right with zeros based on original decimals)
-            // But input like 122.6000 should already be 7 digits when dot removed
             let d = digits;
             if (d.length > 7) d = d.slice(0, 7);
             if (d.length < 7) d = d.padEnd(7, '0');
-            return '0' + d; // leading 0 to make 8 digits
+            return '0' + d;
         };
 
         // Collect selected frequencies from all groups
@@ -175,8 +191,6 @@ class ScannerConfig {
             const checkbox = document.getElementById(`freq-${freqId}`);
             if (checkbox && checkbox.checked) {
                 const frequency = JSON.parse(checkbox.dataset.frequency);
-                const groupId = checkbox.dataset.group;
-                // Default modulation to AM if not provided in frequency entry
                 const modulation = frequency.modulation || 'AM';
                 const freqDigits = toEightDigitFreq(frequency.freq);
                 compiledLines.push(`${frequency.description},${freqDigits},${modulation},0,2,0,0`);
@@ -199,8 +213,7 @@ class ScannerConfig {
             if (!hdrRes.ok || !ftrRes.ok) throw new Error('Failed to load header/footer');
             headerText = await hdrRes.text();
             footerText = await ftrRes.text();
-            // Ensure header ends with a newline so compiled lines always start on a new line
-            if (!headerText.endsWith('\n')) headerText += '\n';
+//            if (!headerText.endsWith('\n')) headerText += '\n';
         } catch (e) {
             alert('Unable to load header/footer. Please serve the app via a local web server and try again.');
             return null;
