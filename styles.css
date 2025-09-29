@@ -1,0 +1,324 @@
+/* Modern CSS Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Make header links white (e.g., Scan125 Control Program Suite) */
+header a,
+header a:visited {
+    color: #fff;
+}
+
+header a:hover,
+header a:focus {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Main Content */
+main {
+    padding: 40px;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+/* Frequency Groups */
+.frequency-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.group-card {
+    background: #f8f9ff;
+    border-radius: 15px;
+    padding: 25px;
+    border: 2px solid #e1e8ff;
+    transition: all 0.3s ease;
+}
+
+.group-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+}
+
+.group-card.selected {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+}
+
+.group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e3c72;
+}
+
+.group-toggle {
+    width: 60px;
+    height: 30px;
+    background: #ddd;
+    border-radius: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.group-toggle.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.group-toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.group-toggle.active::after {
+    transform: translateX(30px);
+}
+
+.frequency-list {
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.frequency-list.show {
+    display: block;
+}
+
+.frequency-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e1e8ff;
+    transition: all 0.3s ease;
+}
+
+.frequency-item:last-child {
+    border-bottom: none;
+}
+
+.frequency-item:hover {
+    background: rgba(102, 126, 234, 0.05);
+    margin: 0 -10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.frequency-info {
+    flex: 1;
+}
+
+.frequency-value {
+    font-weight: 600;
+    color: #1e3c72;
+    font-size: 1.1rem;
+}
+
+.frequency-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+.frequency-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+/* Summary Section */
+.summary {
+    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+}
+
+.summary h3 {
+    color: #1e3c72;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.summary-stats {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 15px;
+    }
+    
+    header {
+        padding: 30px 20px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    main {
+        padding: 30px 20px;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .btn {
+        justify-content: center;
+    }
+    
+    .frequency-groups {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .summary-stats {
+        gap: 30px;
+    }
+}
+
+/* Scrollbar Styling */
+.frequency-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.frequency-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.frequency-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.frequency-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

@@ -1,0 +1,27 @@
+{
+  "name": "ubc125xlt-config",
+  "version": "1.0.0",
+  "description": "Modern web application for configuring Uniden UBC125XLT radio scanner frequencies",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "radio",
+    "scanner", 
+    "uniden",
+    "ubc125xlt",
+    "configuration",
+    "frequencies"
+  ],
+  "author": "UBC125XLT Config Tool",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChristophShyper/ubc125xlt.git"
+  },
+  "homepage": "https://christophshyper.github.io/ubc125xlt/",
+  "dependencies": {},
+  "devDependencies": {}
+}
