@@ -52,7 +52,12 @@ class ScannerConfig {
                     <i class="${group.icon}"></i>
                     <span>${group.name} (${(group.frequencies || []).length})</span>
                 </div>
-                <div class="group-toggle" id="toggle-${groupId}"></div>
+                <div class="group-actions">
+                    <button class="group-clear-btn" title="Uncheck all in this group" onclick="event.stopPropagation(); scannerConfig.clearGroup('${groupId}')">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                    <div class="group-toggle" id="toggle-${groupId}"></div>
+                </div>
             </div>
             <div class="frequency-list" id="list-${groupId}">
                 ${group.frequencies.map(freq => this.createFrequencyItem(groupId, freq)).join('')}
@@ -67,8 +72,8 @@ class ScannerConfig {
         return `
             <div class="frequency-item">
                 <div class="frequency-info">
-                    <div class="frequency-value">${frequency.freq} MHz</div>
                     <div class="frequency-description">${frequency.description}</div>
+                    <div class="frequency-value">${frequency.freq} MHz</div>
                 </div>
                 <input type="checkbox" 
                        class="frequency-checkbox" 
@@ -162,6 +167,30 @@ class ScannerConfig {
         });
         document.querySelectorAll('.frequency-checkbox').forEach(checkbox => {
             checkbox.checked = false;
+        });
+
+        this.updateSummary();
+    }
+
+    clearGroup(groupId) {
+        const list = document.getElementById(`list-${groupId}`);
+        const toggle = document.getElementById(`toggle-${groupId}`);
+        const card = document.querySelector(`[data-group-id="${groupId}"]`);
+        if (!list || !toggle || !card) return;
+
+        // Keep group visibly open and selected, but do not auto-check anything
+        toggle.classList.add('active');
+        list.classList.add('show');
+        card.classList.add('selected');
+        this.selectedGroups.add(groupId);
+
+        // Uncheck all frequencies in this group's list
+        const checkboxes = list.querySelectorAll('.frequency-checkbox');
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                cb.checked = false;
+                this.selectedFrequencies.delete(cb.id.replace('freq-', ''));
+            }
         });
 
         this.updateSummary();

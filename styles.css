@@ -134,6 +134,28 @@ main {
     user-select: none;
 }
 
+/* New: container for actions on the right side */
+.group-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* New: small clear button styling */
+.group-clear-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #eef1ff;
+    color: #1e3c72;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.group-clear-btn:hover {
+    background: #dde3ff;
+}
+
 .group-title {
     display: flex;
     align-items: center;
@@ -209,13 +231,13 @@ main {
     flex: 1;
 }
 
-.frequency-value {
+.frequency-description {
     font-weight: 600;
     color: #1e3c72;
     font-size: 1.1rem;
 }
 
-.frequency-description {
+.frequency-value {
     color: #666;
     font-size: 0.9rem;
     margin-top: 2px;
