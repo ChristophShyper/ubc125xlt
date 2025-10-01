@@ -1,10 +1,24 @@
 // Render all frequencies grouped by category and sorted alphabetically
 (function(){
+  function escapeHtml(value){
+    return String(value == null ? '' : value)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
   function render() {
     const container = document.getElementById('allFrequencies');
     if (!container) return;
 
-    const db = (typeof window !== 'undefined' && window.frequencyDatabase) ? window.frequencyDatabase : {};
+    const db = (typeof window !== 'undefined' && window.frequencyDatabase) ? window.frequencyDatabase : null;
+    if (!db || Object.keys(db).length === 0) {
+      container.innerHTML = '<div style="padding:20px;color:#900">Frequency database is not available. Please reload the page after it finishes loading.</div>';
+      return;
+    }
+
     const groups = Object.entries(db).map(([id, g]) => ({ id, ...g }));
 
     // Sort groups by display name
@@ -23,21 +37,27 @@
         return ad.localeCompare(bd);
       });
 
-      const listHtml = items.map(item => `
+      const listHtml = items.map(item => {
+        const safeDesc = escapeHtml(item.description || '');
+        const safeFreq = escapeHtml(item.freq || '');
+        return `
         <div class="frequency-item">
           <div class="frequency-info">
-            <div class="frequency-description">${item.description || ''}</div>
-            <div class="frequency-value">${item.freq} MHz</div>
+            <div class="frequency-description">${safeDesc}</div>
+            <div class="frequency-value">${safeFreq} MHz</div>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
+
+      const safeIcon = escapeHtml(group.icon || '');
+      const safeName = escapeHtml(group.name || '');
 
       return `
-        <section class="group-card" aria-label="${group.name}">
+        <section class="group-card" aria-label="${safeName}">
           <div class="group-header">
             <div class="group-title">
-              <i class="${group.icon || ''}"></i>
-              <span>${group.name} (${items.length})</span>
+              <i class="${safeIcon}"></i>
+              <span>${safeName} (${items.length})</span>
             </div>
           </div>
           <div class="frequency-list show">

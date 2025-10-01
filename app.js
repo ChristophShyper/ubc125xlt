@@ -9,6 +9,16 @@ class ScannerConfig {
         this.init();
     }
 
+    // Simple HTML escaper for safe interpolation
+    escapeHtml(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     init() {
         this.tryRenderGroups();
         this.attachEventListeners();
@@ -46,21 +56,24 @@ class ScannerConfig {
         card.className = 'group-card';
         card.dataset.groupId = groupId;
 
+        const safeName = this.escapeHtml(group.name);
+        const listHtml = (group.frequencies || []).map(freq => this.createFrequencyItem(groupId, freq)).join('');
+
         card.innerHTML = `
-            <div class="group-header" onclick="scannerConfig.toggleGroup('${groupId}')">
+            <div class="group-header" data-group-id="${groupId}">
                 <div class="group-title">
                     <i class="${group.icon}"></i>
-                    <span>${group.name} (${(group.frequencies || []).length})</span>
+                    <span>${safeName} (${(group.frequencies || []).length})</span>
                 </div>
                 <div class="group-actions">
-                    <button class="group-clear-btn" title="Uncheck all in this group" onclick="event.stopPropagation(); scannerConfig.clearGroup('${groupId}')">
+                    <button class="group-clear-btn" title="Uncheck all in this group" type="button" data-group-id="${groupId}">
                         <i class="fas fa-eraser"></i> Clear
                     </button>
                     <div class="group-toggle" id="toggle-${groupId}"></div>
                 </div>
             </div>
             <div class="frequency-list" id="list-${groupId}">
-                ${group.frequencies.map(freq => this.createFrequencyItem(groupId, freq)).join('')}
+                ${listHtml}
             </div>
         `;
 
@@ -69,18 +82,20 @@ class ScannerConfig {
 
     createFrequencyItem(groupId, frequency) {
         const freqId = `${groupId}-${frequency.freq}`;
+        const safeDesc = this.escapeHtml(frequency.description);
+        const safeFreq = this.escapeHtml(frequency.freq);
+        const encodedData = encodeURIComponent(JSON.stringify(frequency));
         return `
             <div class="frequency-item">
                 <div class="frequency-info">
-                    <div class="frequency-description">${frequency.description}</div>
-                    <div class="frequency-value">${frequency.freq} MHz</div>
+                    <div class="frequency-description">${safeDesc}</div>
+                    <div class="frequency-value">${safeFreq} MHz</div>
                 </div>
                 <input type="checkbox" 
                        class="frequency-checkbox" 
                        id="freq-${freqId}"
                        data-group="${groupId}"
-                       data-frequency='${JSON.stringify(frequency)}'
-                       onchange="scannerConfig.toggleFrequency('${freqId}', this)">
+                       data-frequency='${encodedData}'>
             </div>
         `;
     }
@@ -237,7 +252,7 @@ class ScannerConfig {
         this.selectedFrequencies.forEach(freqId => {
             const checkbox = document.getElementById(`freq-${freqId}`);
             if (checkbox && checkbox.checked) {
-                const frequency = JSON.parse(checkbox.dataset.frequency);
+                const frequency = JSON.parse(decodeURIComponent(checkbox.dataset.frequency));
                 const modulation = frequency.modulation || 'AM';
                 const freqDigits = toEightDigitFreq(frequency.freq);
                 compiledLines.push(`${frequency.description},${freqDigits},${modulation},0,2,0,0`);
@@ -337,6 +352,7 @@ class ScannerConfig {
     }
 
     attachEventListeners() {
+        // Top controls
         document.getElementById('selectAll').addEventListener('click', () => {
             this.selectAllGroups();
         });
@@ -347,6 +363,36 @@ class ScannerConfig {
 
         document.getElementById('downloadConfig').addEventListener('click', async () => {
             await this.downloadConfig();
+        });
+
+        // Delegated events for group actions and checkboxes
+        const container = document.getElementById('frequencyGroups');
+        container.addEventListener('click', (e) => {
+            const card = e.target.closest('.group-card');
+            if (!card) return;
+            const groupId = card.dataset.groupId;
+
+            // Clear button
+            const clearBtn = e.target.closest('.group-clear-btn');
+            if (clearBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.clearGroup(groupId);
+                return;
+            }
+
+            // Header toggle
+            if (e.target.closest('.group-header')) {
+                this.toggleGroup(groupId);
+            }
+        });
+
+        container.addEventListener('change', (e) => {
+            const cb = e.target;
+            if (cb && cb.classList && cb.classList.contains('frequency-checkbox')) {
+                const freqId = cb.id.replace('freq-', '');
+                this.toggleFrequency(freqId, cb);
+            }
         });
     }
 }
