@@ -134,6 +134,28 @@ main {
     user-select: none;
 }
 
+/* New: container for actions on the right side */
+.group-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* New: small clear button styling */
+.group-clear-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #eef1ff;
+    color: #1e3c72;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.group-clear-btn:hover {
+    background: #dde3ff;
+}
+
 .group-title {
     display: flex;
     align-items: center;
@@ -178,6 +200,7 @@ main {
     display: none;
     max-height: 300px;
     overflow-y: auto;
+    overflow-x: hidden; /* prevent horizontal scrollbars */
     margin-top: 15px;
 }
 
@@ -200,32 +223,31 @@ main {
 
 .frequency-item:hover {
     background: rgba(102, 126, 234, 0.05);
-    margin: 0 -10px;
-    padding: 10px;
+    /* remove negative margins to avoid horizontal overflow */
+    /* margin: 0 -10px; */
+    padding: 10px 0; /* keep consistent vertical padding */
     border-radius: 8px;
 }
 
 .frequency-info {
     flex: 1;
+    min-width: 0; /* allow text truncation/wrapping to avoid overflow */
 }
 
-.frequency-value {
+/* Description is primary: larger and blue */
+.frequency-description {
     font-weight: 600;
     color: #1e3c72;
     font-size: 1.1rem;
+    overflow-wrap: anywhere; /* break long tokens */
 }
 
-.frequency-description {
+/* Frequency is secondary: smaller and muted */
+.frequency-value {
     color: #666;
     font-size: 0.9rem;
     margin-top: 2px;
-}
-
-.frequency-checkbox {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: #667eea;
+    overflow-wrap: anywhere;
 }
 
 /* Summary Section */
@@ -265,6 +287,13 @@ main {
     color: #666;
     font-size: 1rem;
     font-weight: 500;
+}
+
+/* Footer Styles */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #e1e8ff;
 }
 
 /* Responsive Design */
