@@ -1,5 +1,5 @@
 // Render all frequencies grouped by category and sorted alphabetically
-(function(){
+( function(){
   function escapeHtml(value){
     return String(value == null ? '' : value)
       .replace(/&/g,'&amp;')

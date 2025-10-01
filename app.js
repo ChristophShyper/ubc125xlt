@@ -57,7 +57,7 @@ class ScannerConfig {
         card.dataset.groupId = groupId;
 
         const safeName = this.escapeHtml(group.name);
-        const listHtml = (group.frequencies || []).map(freq => this.createFrequencyItem(groupId, freq)).join('');
+        const listHtml = (group.frequencies || []).map((freq, idx) => this.createFrequencyItem(groupId, freq, idx)).join('');
 
         card.innerHTML = `
             <div class="group-header" data-group-id="${groupId}">
@@ -80,11 +80,10 @@ class ScannerConfig {
         return card;
     }
 
-    createFrequencyItem(groupId, frequency) {
-        const freqId = `${groupId}-${frequency.freq}`;
+    createFrequencyItem(groupId, frequency, index) {
+        const freqId = `${groupId}-${index}`;
         const safeDesc = this.escapeHtml(frequency.description);
         const safeFreq = this.escapeHtml(frequency.freq);
-        const encodedData = encodeURIComponent(JSON.stringify(frequency));
         return `
             <div class="frequency-item">
                 <div class="frequency-info">
@@ -95,7 +94,7 @@ class ScannerConfig {
                        class="frequency-checkbox" 
                        id="freq-${freqId}"
                        data-group="${groupId}"
-                       data-frequency='${encodedData}'>
+                       data-index="${index}">
             </div>
         `;
     }
@@ -249,10 +248,16 @@ class ScannerConfig {
 
         // Collect selected frequencies from all groups
         const compiledLines = [];
+        const db = (typeof window !== 'undefined' && window.frequencyDatabase) ? window.frequencyDatabase : {};
         this.selectedFrequencies.forEach(freqId => {
             const checkbox = document.getElementById(`freq-${freqId}`);
             if (checkbox && checkbox.checked) {
-                const frequency = JSON.parse(decodeURIComponent(checkbox.dataset.frequency));
+                const groupId = checkbox.dataset.group;
+                const idxStr = checkbox.dataset.index;
+                const idx = Number(idxStr);
+                const group = db[groupId];
+                const frequency = group && Array.isArray(group.frequencies) ? group.frequencies[idx] : null;
+                if (!frequency) return;
                 const modulation = frequency.modulation || 'AM';
                 const freqDigits = toEightDigitFreq(frequency.freq);
                 compiledLines.push(`${frequency.description},${freqDigits},${modulation},0,2,0,0`);
