@@ -7,25 +7,26 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #000; /* solid black background */
     min-height: 100vh;
     padding: 20px;
-    color: #333;
+    color: #e5e7eb; /* light gray for text */
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background: white;
+    background: #0d0f12; /* near-black container */
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid #1f2937; /* subtle border for definition */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
     overflow: hidden;
 }
 
 /* Header Styles */
 header {
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    color: white;
+    background: linear-gradient(180deg, #0b0f1a 0%, #0a0a0a 100%);
+    color: #f9fafb;
     padding: 40px;
     text-align: center;
 }
@@ -68,7 +69,7 @@ main {
 
 .btn {
     padding: 12px 24px;
-    border: none;
+    border: 1px solid #1f2937;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
@@ -77,25 +78,26 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    color: #f9fafb;
 }
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1f3b8a 0%, #1d4ed8 100%);
     color: white;
 }
 
 .btn-secondary {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #7c1d5a 0%, #b91c1c 100%);
     color: white;
 }
 
 .btn-success {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: linear-gradient(135deg, #065f46 0%, #059669 100%);
     color: white;
 }
 
@@ -108,21 +110,21 @@ main {
 }
 
 .group-card {
-    background: #f8f9ff;
+    background: #111318;
     border-radius: 15px;
     padding: 25px;
-    border: 2px solid #e1e8ff;
+    border: 1px solid #242b36;
     transition: all 0.3s ease;
 }
 
 .group-card:hover {
-    border-color: #667eea;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+    border-color: #2563eb;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
 }
 
 .group-card.selected {
-    border-color: #667eea;
-    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    border-color: #2563eb;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);
 }
 
 .group-header {
@@ -146,14 +148,14 @@ main {
     padding: 6px 10px;
     border: none;
     border-radius: 6px;
-    background: #eef1ff;
-    color: #1e3c72;
+    background: #0f172a;
+    color: #c7d2fe;
     font-weight: 600;
     cursor: pointer;
 }
 
 .group-clear-btn:hover {
-    background: #dde3ff;
+    background: #111827;
 }
 
 .group-title {
@@ -162,13 +164,13 @@ main {
     gap: 10px;
     font-size: 1.3rem;
     font-weight: 700;
-    color: #1e3c72;
+    color: #e5efff;
 }
 
 .group-toggle {
     width: 60px;
     height: 30px;
-    background: #ddd;
+    background: #374151;
     border-radius: 25px;
     position: relative;
     transition: all 0.3s ease;
@@ -176,7 +178,7 @@ main {
 }
 
 .group-toggle.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
 }
 
 .group-toggle::after {
@@ -186,10 +188,10 @@ main {
     left: 3px;
     width: 24px;
     height: 24px;
-    background: white;
+    background: #f9fafb;
     border-radius: 50%;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 .group-toggle.active::after {
@@ -213,7 +215,7 @@ main {
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #e1e8ff;
+    border-bottom: 1px solid #1f2937;
     transition: all 0.3s ease;
 }
 
@@ -222,7 +224,7 @@ main {
 }
 
 .frequency-item:hover {
-    background: rgba(102, 126, 234, 0.05);
+    background: rgba(37, 99, 235, 0.07);
     /* remove negative margins to avoid horizontal overflow */
     /* margin: 0 -10px; */
     padding: 10px 0; /* keep consistent vertical padding */
@@ -237,14 +239,14 @@ main {
 /* Description is primary: larger and blue */
 .frequency-description {
     font-weight: 600;
-    color: #1e3c72;
+    color: #8ab4f8;
     font-size: 1.1rem;
     overflow-wrap: anywhere; /* break long tokens */
 }
 
 /* Frequency is secondary: smaller and muted */
 .frequency-value {
-    color: #666;
+    color: #9aa3af;
     font-size: 0.9rem;
     margin-top: 2px;
     overflow-wrap: anywhere;
@@ -252,14 +254,15 @@ main {
 
 /* Summary Section */
 .summary {
-    background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+    background: #0e1117;
+    border: 1px solid #1f2937;
     border-radius: 15px;
     padding: 30px;
     text-align: center;
 }
 
 .summary h3 {
-    color: #1e3c72;
+    color: #e5e7eb;
     margin-bottom: 20px;
     font-size: 1.5rem;
 }
@@ -279,12 +282,12 @@ main {
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #667eea;
+    color: #60a5fa;
     margin-bottom: 5px;
 }
 
 .stat-label {
-    color: #666;
+    color: #9aa3af;
     font-size: 1rem;
     font-weight: 500;
 }
@@ -293,7 +296,13 @@ main {
 .site-footer {
     text-align: center;
     padding: 20px;
-    border-top: 1px solid #e1e8ff;
+    border-top: 1px solid #1f2937;
+    color: #d1d5db;
+}
+
+.site-footer a,
+.site-footer a:visited {
+    color: #fff;
 }
 
 /* Responsive Design */
@@ -339,15 +348,15 @@ main {
 }
 
 .frequency-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #0b0f1a;
     border-radius: 3px;
 }
 
 .frequency-list::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
+    background: #333;
     border-radius: 3px;
 }
 
 .frequency-list::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: #444;
 }
